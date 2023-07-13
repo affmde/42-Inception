@@ -1,4 +1,48 @@
 version: '3'
 services:
   nginx:
+    container_name: nginx
+    build: requirements/nginx
+    ports:
+      - 433:433
+    restart: always
+    networks:
+      - network
+   # volumes:
+    #  - mariadb_data:/var/lib/mysql
+
+  wordpress:
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    build: requirements/wordpress
+    restart: always
+    ##env_file: ../.env
+    networks:
+      - network
+    #volumes:
+     # -wordpress_data:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+    ports:
+      - 8080:80
+    
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    networks:
+      - network
+
+networks:
+  network:
+    driver: "bridge"
+
     
