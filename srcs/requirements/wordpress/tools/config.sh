@@ -58,8 +58,5 @@ sed -i 's/listen = \/run\/php\/php7.3-fpm.sock/listen = 9000/g' /etc/php/7.3/fpm
 mkdir /run/php
 
 
-wp redis enable --allow-root
-
-
 # starts the PHP-FPM service in the foreground. The -F flag tells PHP-FPM to run in the foreground, rather than as a daemon in the background.
 /usr/sbin/php-fpm7.3 -F
