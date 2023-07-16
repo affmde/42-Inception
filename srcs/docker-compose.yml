@@ -1,8 +1,8 @@
-version: '3'
+version: "3.5"
 
 volumes:
-  wordpres:
-    name: wordpres
+  wordpress:
+    name: wordpress
     driver: local
     driver_opts:
       device: /var/andrferr/data/wordpress
@@ -18,22 +18,22 @@ volumes:
 services:
   nginx:
     container_name: nginx
-    build: requirements/nginx
+    build: ./requirements/nginx
     ports:
       - 433:433
     restart: always
     networks:
       - network
     volumes:
-     - wordpress:/var/www/html
+      - wordpress:/var/www/html
 
   wordpress:
     container_name: wordpress
     depends_on:
       - mariadb
-    build: requirements/wordpress
+    build: ./requirements/wordpress
     restart: always
-    env_file: ../.env
+    env_file: .env
     networks:
       - network
     volumes:
