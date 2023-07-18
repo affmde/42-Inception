@@ -1,21 +1,12 @@
 FROM debian:buster
 
-RUN apt update -y
-RUN apt update -y && apt install \
-    php7.3 \
-    php7.3-cli \
-    php7.3-common \
-    php7.3-json \
-    php7.3-opcache \
-    php7.3-mysql \
-    php7.3-mbstring \
-    php7.3-xml \
-    php7.3-gd \
-    php7.3-curl \
-    php7.3-zip -y \
-    && rm -rf /var/lib/apt/lists/*
 
-COPY ./tools/config.sh /
-COPY ./tools/wp-config.php /
+RUN apt-get update -y && apt-get install mariadb-server -y
 
-CMD [ "bash", "/config.sh" ]
+COPY ./tools/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+RUN chmod 440 /etc/mysql/mariadb.conf.d/50-server.cnf
+
+COPY ./tools/script.sh /
+
+
+CMD ["/script.sh"]

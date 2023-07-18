@@ -16,13 +16,12 @@ chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
 
 wp core download --allow-root
-
 mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
 
-sed -i -r "s/db/$MYSQL_NAME/1"   wp-config.php
-sed -i -r "s/user/$MYSQL_USER/1"  wp-config.php
-sed -i -r "s/db_passwd/$MYSQL_PSW/1"    wp-config.php
-sed -i -r "s/localhost/mariadb/1"    wp-config.php
+sed -i -r "s/db/$DB_NAME/1"   wp-config.php
+sed -i -r "s/user/$DB_USER/1"  wp-config.php
+sed -i -r "s/db_passwd/$DB_PASSWORD/1"    wp-config.php
+#sed -i -r "s/localhost/mariadb/1"    wp-config.php
 
 wp core install --url=$DOMAIN_NAME/ --title=$WP_TITLE --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_EMAIL --skip-email --allow-root
 
