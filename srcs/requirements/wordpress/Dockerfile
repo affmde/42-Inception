@@ -1,12 +1,15 @@
 FROM debian:buster
 
+RUN apt-get update
+RUN apt-get -y install php7.3 php-mysqli php-fpm wget sendmail
 
-RUN apt-get update -y && apt-get install mariadb-server -y
+EXPOSE 9000
 
-COPY ./tools/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-RUN chmod 440 /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY ./tools/www.conf /etc/php/7.3/fpm/pool.d
+COPY ./tools /var/www/
 
-COPY ./tools/script.sh /
+RUN chmod +x /var/www/config.sh
 
+ENTRYPOINT [ "/var/www/config.sh" ]
 
-CMD ["/script.sh"]
+CMD ["/usr/sbin/php-fpm7.3", "--nodaemonize"]
