@@ -1,13 +1,17 @@
 FROM debian:buster
 
 
-RUN apt-get update -y && apt-get install mariadb-server -y
+RUN apt-get update -y && apt-get install mariadb-server mariadb-client -y
+RUN apt-get install gettext-base
+COPY ./tools/50-server.cnf /etc/mysql/mariadb.conf.d/
+RUN chmod 644 /etc/mysql/mariadb.conf.d/50-server.cnf
 
-COPY ./tools/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-RUN chmod 640 /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY ./tools/script.sh /
 
-COPY ./tools /var/www/
+WORKDIR /
 
-RUN service mysql start && mysql < /var/www/script.sql && rm -f /var/www/script.sql;
+RUN chmod +x ./script.sh
 
-CMD ["mysqld"]
+EXPOSE 3306
+
+CMD ["/script.sh"]

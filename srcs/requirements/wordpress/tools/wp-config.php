@@ -1,6 +1,6 @@
 <?php
 
-define( 'DB_NAME', 'db' );
+define( 'DB_NAME', 'db1' );
 define( 'DB_USER', 'user' );
 define( 'DB_PASSWORD', 'db_passwd' );
 define( 'DB_HOST', 'mariadb' );
@@ -20,3 +20,10 @@ define('NONCE_SALT',       'Kswr`eL+:iv.5vv1.mBtqk%sc7-s17jl5pF~J{_#0b!MWCS9kvdt
 define( 'DB_COLLATE', '' );
 
 define( 'WPLANG', 'en_US' );
+
+/** Absolute path to the WordPress directory. */
+if ( !defined('ABSPATH') )
+    define('ABSPATH', dirname(__FILE__) . '/');
+
+/** Sets up WordPress vars and included files. */
+require_once ABSPATH . 'wp-settings.php';
