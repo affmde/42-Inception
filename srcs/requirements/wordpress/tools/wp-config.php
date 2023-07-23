@@ -3,7 +3,7 @@
 define( 'DB_NAME', 'db1' );
 define( 'DB_USER', 'user' );
 define( 'DB_PASSWORD', 'db_passwd' );
-define( 'DB_HOST', 'mariadb' );
+define( 'DB_HOST', 'db_host' );
 
 
 $table_prefix = 'wp_';

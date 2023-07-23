@@ -9,7 +9,8 @@ RUN apt install curl -y
 
 
 COPY ./tools/config.sh /
-COPY ./tools/wp-config.php /
+COPY ./tools/www.conf /etc/php/7.3/fpm/pool.d/
 
+RUN mkdir /run/php
 
 CMD [ "/config.sh" ]

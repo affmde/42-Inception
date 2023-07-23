@@ -1,45 +1,49 @@
 #!/bin/bash
 
-
-
 # create directory to use in nginx container later and also to setup the wordpress conf
 mkdir /var/www/
 mkdir /var/www/html
 
 cd /var/www/html
 
-
 rm -rf *
 
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 
+if [ ! -f /var/www/wordpress/wp-config.php ]; then
 
-chmod +x wp-cli.phar 
+	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 
 
-mv wp-cli.phar /usr/local/bin/wp
+	chmod +x wp-cli.phar 
+
+	mv wp-cli.phar /usr/local/bin/wp
+
+	wp core download --allow-root
+
+	sed -i -r "s/database_name_here/$DB_NAME/1"   /var/www/html/wp-config-sample.php
+	sed -i -r "s/username_here/$DB_USER/1"  /var/www/html/wp-config-sample.php
+	sed -i -r "s/password_here/$DB_PASSWORD/1"    /var/www/html/wp-config-sample.php
+	sed -i -r "s/localhost/$DB_HOST/1"    /var/www/html/wp-config-sample.php
 
 
-wp core download --allow-root
+	cp wp-config-sample.php wp-config.php
 
-mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+	wp core install --url=${DOMAIN_NAME} \
+					--title=${WP_TITLE} \
+					--admin_user=$WP_ADMIN_USER \
+					--admin_password=$WP_ADMIN_PASSWORD \
+					--admin_email=$WP_ADMIN_EMAIL \
+					--skip-email \
+					--allow-root
 
-chmod 644 wp-config.php
+	wp user create  $WP_USER \
+					$WP_USER_EMAIL \
+					--role=author \
+					--user_pass=$WP_USER_PASSWORD \
+					--allow-root
 
-mv ../../../wp-config.php /var/www/html/wp-config.php
+	wp theme install astra --activate --allow-root
 
-echo db name: $DB_NAME
-echo db user: $DB_USER
-echo db pass: $DB_PASSWORD
+fi
 
-sed -i -r "s/db1/$DB_NAME/1"   /var/www/html/wp-config.php
-sed -i -r "s/user/$DB_USER/1"  /var/www/html/wp-config.php
-sed -i -r "s/db_passwd/$DB_PASSWORD/1"    /var/www/html/wp-config.php
-
-wp core install --url=$DOMAIN_NAME/ --title=$WP_TITLE --admin_user=$WP_ADMIN_USER --admin_password=$WP_ADMIN_PASSWORD --admin_email=$WP_ADMIN_EMAIL --skip-email --allow-root
-
-wp user create $WP_USER $WP_USER_EMAIL --role=author --user_pass=$WP_USER_PASSWORD --allow-root
-
-sed -i 's/listen = \/run\/php\/php7.3-fpm.sock/listen = 9000/g' /etc/php/7.3/fpm/pool.d/www.conf
-
-mkdir /run/php
+echo "Wordpress started on :9000"
 
 /usr/sbin/php-fpm7.3 -F
