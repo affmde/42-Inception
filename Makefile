@@ -1,7 +1,7 @@
 all:
-	sudo hostsed add 127.0.0.1 andrferr.42.fr && echo "successfully added andrferr.42.fr to /etc/hosts"
+#sudo hostsed add 127.0.0.1 andrferr.42.fr && echo "successfully added andrferr.42.fr to /etc/hosts"
 	sudo echo "127.0.0.1 andrferr.42.fr" >> /etc/hosts && echo "successfully added andrferr.42.fr to /etc/hosts"
-#docker-compose -f ./srcs/docker-compose.yml up -d
+	sudo docker-compose -f ./srcs/docker-compose.yml up -d
 
 down:
 	sudo docker-compose -f  ./srcs/docker-compose.yml down
