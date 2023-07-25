@@ -16,8 +16,8 @@ down:
 clean:
 	sudo docker-compose -f ./srcs/docker-compose.yml down --rmi all -v
 
-fclean: clean
-	@hostsed rm 127.0.0.1 andrferr && echo "successfully removed andrferr.42.fr to /etc/hosts"
+fclean: clean	
+#@hostsed rm 127.0.0.1 andrferr && echo "successfully removed andrferr.42.fr to /etc/hosts"
 	@if [ -d "/home/andrferr/data" ]; then \
 	sudo rm -rf /home/andrferr/data/* && \
 	echo "successfully removed all contents from /home/andrferr/data"; \
