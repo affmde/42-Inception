@@ -26,7 +26,7 @@ services:
   nginx:
     container_name: nginx
     build: ./requirements/nginx/.
-    image: my-nginx:andrferr
+    image: nginx:andrferr
     depends_on:
       - wordpress
     ports:
@@ -41,7 +41,7 @@ services:
 
   wordpress:
     container_name: wordpress
-    image: my-wordpress:andrferr
+    image: wordpress:andrferr
     depends_on:
       - mariadb
     build: ./requirements/wordpress/.
@@ -56,7 +56,7 @@ services:
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb/.
-    image: my-mariadb:andrferr
+    image: mariadb:andrferr
     restart: always
     env_file:
       - .env
