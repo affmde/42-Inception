@@ -40,7 +40,8 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
 					--user_pass=$WP_USER_PASSWORD \
 					--allow-root
 
-	wp theme install astra --activate --allow-root
+	#wp theme install astra --activate --allow-root
+	wp theme install inspiro --activate --allow-root
 
 fi
 

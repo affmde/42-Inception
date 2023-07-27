@@ -10,6 +10,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 		-subj "/C=FI/ST=Helsinki/L=Helsinki/O=Hive/OU=andrferr/CN=andrferr/"
 
 COPY tools/default /etc/nginx/sites-available/default
+COPY tools/nginx.conf /etc/nginx
 
 EXPOSE 443
 
