@@ -8,6 +8,7 @@ cd /var/www/html
 
 rm -rf *
 
+#execute only if wordpress is not installed
 if [ ! -f /var/www/wordpress/wp-config.php ]; then
 
 	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar 
@@ -18,6 +19,7 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
 
 	wp core download --allow-root
 
+	#setup wp-config.php file with the proper values
 	sed -i -r "s/database_name_here/$DB_NAME/1"   /var/www/html/wp-config-sample.php
 	sed -i -r "s/username_here/$DB_USER/1"  /var/www/html/wp-config-sample.php
 	sed -i -r "s/password_here/$DB_PASSWORD/1"    /var/www/html/wp-config-sample.php
@@ -26,6 +28,7 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
 
 	cp wp-config-sample.php wp-config.php
 
+	#install and configure wordpress and create a new user
 	wp core install --url=${DOMAIN_NAME} \
 					--title=${WP_TITLE} \
 					--admin_user=$WP_ADMIN_USER \
@@ -40,11 +43,10 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
 					--user_pass=$WP_USER_PASSWORD \
 					--allow-root
 
-	#wp theme install astra --activate --allow-root
+	#Install a theme
 	wp theme install inspiro --activate --allow-root
 
 fi
 
-echo "Wordpress started on :9000"
-
+#start the PHP-FPM (FastCGI Process Manager) service for PHP version 7.3 in foreground mode
 /usr/sbin/php-fpm7.3 -F
