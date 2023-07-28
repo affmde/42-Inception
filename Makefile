@@ -10,7 +10,7 @@ clean:
 fclean: clean
 	@if [ -d "/var/andrferr/data" ]; then \
 	sudo rm -rf /var/andrferr/data/* && \
-	echo "successfully removed all contents from /home/andrferr/data"; \
+	echo "successfully removed all contents from /var/andrferr/data"; \
 	fi;
 
 re: fclean all
