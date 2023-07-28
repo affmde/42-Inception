@@ -8,8 +8,8 @@ clean:
 	sudo docker-compose -f ./srcs/docker-compose.yml down --rmi all -v
 
 fclean: clean
-	@if [ -d "/home/andrferr/data" ]; then \
-	sudo rm -rf /home/andrferr/data/* && \
+	@if [ -d "/var/andrferr/data" ]; then \
+	sudo rm -rf /var/andrferr/data/* && \
 	echo "successfully removed all contents from /home/andrferr/data"; \
 	fi;
 
