@@ -2,8 +2,6 @@
 
 chown -R mysql:mysql /var/lib/mysql
 
-mysql_install_db --basedir=/usr --datadir=/var/lib/mysql --user=mysql --rpm > /dev/null
-
 cat << EOF > createdb.sql
 USE mysql;
 FLUSH PRIVILEGES;
@@ -15,6 +13,8 @@ GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
 
 FLUSH PRIVILEGES;
 EOF
-mysqld --user=mysql --bootstrap < createdb.sql
+mysqld --bootstrap --datadir=/var/lib/mysql --user=mysql < createdb.sql
+rm createdb.sql
+
 
 mysqld_safe
